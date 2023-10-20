@@ -1,5 +1,10 @@
 from django.core.management.utils import get_random_secret_key
+from datetime import timedelta
+from dotenv import load_dotenv
 from pathlib import Path
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,6 +29,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
+    'mail_templated',
 
     # Apps
     'authentication',
@@ -45,7 +51,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,3 +124,40 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = []
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+# Auth Configuration
+AUTH_CONFIG = {
+    'LOGIN_FIELD': 'email'
+}
+
+# Email Setup
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+COMPANY_NAME = 'Z-Tube'
+
+print(EMAIL_HOST_USER)
+print(EMAIL_HOST_PASSWORD)
+
+# Process Configuration
+SEND_ACTIVATION_EMAIL = True
+SEND_RESET_PASSWORD_CONFIRMATION_EMAIL = True
+FRONTEND_URL = 'http://localhost/'
+ACTIVATION_URL = 'activate/'
+RESET_PASSWORD_CONFIRMATION_URL = 'reset-password/'
+
+# JWT Configuration
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": False,
+
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
+}

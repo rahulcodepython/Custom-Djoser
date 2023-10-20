@@ -9,3 +9,13 @@ admin.site.unregister(Group)
 class UserAdmin(admin.ModelAdmin):
     list_display = ['email', 'first_name', 'last_name',
                     'username', 'is_active', 'is_superuser']
+
+
+@admin.register(models.ActivationCode)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['user', 'uid', 'token', 'created_at']
+
+
+@admin.register(models.ResetPasswordCode)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['user', 'uid', 'token', 'created_at']

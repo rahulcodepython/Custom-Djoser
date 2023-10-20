@@ -24,6 +24,7 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email).lower(),
+            is_active=True,
             is_superuser=True,
             **extra_fields
         )

@@ -12,10 +12,15 @@ class UserAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.ActivationCode)
-class UserAdmin(admin.ModelAdmin):
+class ActivationCodeAdmin(admin.ModelAdmin):
     list_display = ['user', 'uid', 'token', 'created_at']
 
 
 @admin.register(models.ResetPasswordCode)
-class UserAdmin(admin.ModelAdmin):
+class ResetPasswordCodeAdmin(admin.ModelAdmin):
+    list_display = ['user', 'uid', 'token', 'created_at']
+
+
+@admin.register(models.ResetEmailCode)
+class ResetEmailCodeAdmin(admin.ModelAdmin):
     list_display = ['user', 'uid', 'token', 'created_at']

@@ -24,7 +24,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.sites",
     # Third party packages
     "rest_framework",
     "corsheaders",
@@ -33,6 +32,8 @@ INSTALLED_APPS = [
     # Apps
     "authentication",
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -122,7 +123,7 @@ CORS_ALLOWED_ORIGINS = []
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Auth Configuration
-AUTH_CONFIG = {"LOGIN_FIELD": "email"}
+AUTH_CONFIG = {"LOGIN_FIELD": "username"}
 
 # Email Setup
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -136,7 +137,8 @@ COMPANY_NAME = "Z-Tube"
 # Process Configuration
 SEND_ACTIVATION_EMAIL = True
 SEND_RESET_PASSWORD_CONFIRMATION_EMAIL = True
-FRONTEND_URL = "http://localhost/"
+SEND_RESET_EMAIL_CONFIRMATION_EMAIL = True
+FRONTEND_URL = os.getenv("FRONTEND_URL")
 ACTIVATION_URL = "activate/"
 RESET_PASSWORD_CONFIRMATION_URL = "reset-password/"
 
@@ -151,3 +153,15 @@ SIMPLE_JWT = {
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
 }
+
+# GitHub OAuth details
+GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
+GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
+# Google OAuth details
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+
+# Backend URL
+BACKEND_URL = os.getenv('BACKEND_URL')
+GITHUB_REDIRECT_URI = os.getenv('GITHUB_REDIRECT_URI')
+GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI')

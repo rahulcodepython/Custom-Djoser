@@ -18,36 +18,26 @@ class UserCreateSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True, validators=[UniqueValidator(queryset=User.objects.all())]
     )
+    username = serializers.CharField(required=True)
 
     class Meta:
         model = User
-        fields = tuple(User.REQUIRED_FIELDS) + (
-            settings.AUTH_CONFIG["LOGIN_FIELD"],
-            "password",
-        )
+        fields = list(User.REQUIRED_FIELDS) + [settings.AUTH_CONFIG['LOGIN_FIELD'], "password", "email"]
 
     def create(self, validated_data):
         user = super().create(validated_data)
+        user.username = validated_data["username"]
         user.set_password(validated_data["password"])
-        user.username = validated_data["email"].split("@")[0] + str(
-            random.randint(1000, 9999)
-        )
-
+        user.email = validated_data["email"]
         user.save()
+
         return user
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        exclude = (
-            "is_staff",
-            "is_active",
-            "is_superuser",
-            "password",
-            settings.AUTH_CONFIG["LOGIN_FIELD"],
-            "id",
-        )
+        fields = ['username', 'first_name', 'last_name', 'image']
 
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
